@@ -28,19 +28,24 @@
                     <div class="col-md-6 p-2 border border-dark rounded">
                         <table class="table table-striped text-center">
                             <tr>
-                                <th class="bg-dark text-white">Sl No.</th>
                                 <th class="bg-dark text-white">Customer Name</th>
+                                <th class="bg-dark text-white">Customer Email</th>
                                 <th class="bg-dark text-white">Status</th>
                                 <th class="bg-dark text-white" colspan="2">Actions</th>
                             </tr>
-                            <tr>
+                        
                                 <% user.forEach((user,index)=> { %>
-                            <tr>
-                                <td>
-                                    <%= index+1 %>
-                                </td>
+                                  <% if (user.status==='Active' ) { %>
+                                    <tr>
+                                <% } else if (user.status==='Blocked' ) { %>
+                                    <tr class="table-danger">
+                                <% } %>
+                          
                                 <td>
                                     <%= user.name %>
+                                </td>
+                                <td>
+                                    <%= user.email %>
                                 </td>
                                 <td>
                                     <% if (user.status === 'Active') { %>

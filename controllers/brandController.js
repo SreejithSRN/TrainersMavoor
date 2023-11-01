@@ -10,7 +10,7 @@ module.exports={
     addBrand:async(req,res)=>{
     
         try {
-            const name=req.body.name;       
+            const name=req.body.name;     
             const brands=await brand.findOne({name:name})       
             if(brands){
                 console.log("Brand already in the db")
@@ -29,13 +29,13 @@ module.exports={
         const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
         const perPage = 5; // Number of items per page
         const skip = (page - 1) * perPage;
-        const brands = await brand.find().skip(skip).limit(perPage);
+        const brands = await brand.find({}).sort({name:1}).skip(skip).limit(perPage);
         const totalCount = await brand.countDocuments();
         res.render("./admin/brand", {
         brands,
       
         currentPage: page,
-        perPage,
+        perPage, 
         totalCount,
         totalPages: Math.ceil(totalCount / perPage),
       });       

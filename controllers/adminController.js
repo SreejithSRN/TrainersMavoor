@@ -54,9 +54,9 @@ module.exports={
     },
    
     
-    getProduct:(req,res)=>{
-        res.render("./admin/products")
-},
+//     getProduct:(req,res)=>{
+//         res.render("./admin/products")
+// },
    
     getLogout:(req,res)=>{
        

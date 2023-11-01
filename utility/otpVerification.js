@@ -23,7 +23,7 @@ sendOTP:async(req,res,email,otpToBeSent)=>{
       },
     });
 
-    const duration=6*1000
+    const duration=60*1000
     const createdAt=Date.now()
     const expiresAt=createdAt+duration
     const newOTP=new OTP({
@@ -34,6 +34,15 @@ sendOTP:async(req,res,email,otpToBeSent)=>{
     })
     console.log("current otp:", otpToBeSent);
     const otpDB=await newOTP.save()
+    setTimeout(() => {
+      OTP.deleteOne({ email: email })
+        .then(() => {
+          console.log("Document deleted successfully");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 60000);
     // console.log(otpDB);
 
 

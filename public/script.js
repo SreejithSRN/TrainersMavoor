@@ -1,6 +1,3 @@
-
-
-
     //function to check the username//
         function validateUserName() {
             var usernamePattern = /^[a-zA-Z][a-zA-Z0-9_]{3,20}$/
@@ -49,6 +46,7 @@
             msg.innerHTML = "Passwords do not match. Please try again."            
             }
             }
+            
     //function to validate brand name        
             // function validateBrandName() {
             //     // var usernamePattern = /^[a-zA-Z][a-zA-Z0-9_]{1,20}$/

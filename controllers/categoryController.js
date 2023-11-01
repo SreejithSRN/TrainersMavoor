@@ -27,7 +27,7 @@ module.exports={
         const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
         const perPage = 5; // Number of items per page
         const skip = (page - 1) * perPage;
-        const cat = await category.find().skip(skip).limit(perPage);
+        const cat = await category.find({}).sort({name:1}).skip(skip).limit(perPage);
         const totalCount = await category.countDocuments();
         res.render("./admin/category", {
         cat,

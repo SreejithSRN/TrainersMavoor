@@ -23,16 +23,22 @@ router.route("/forgotPwd")
 
 //
 router.route("/otpverify")
+.get(userController.otpGet)
 .post(userController.otpPostVer)
 
 //
 router.route("/passwordrecovery")
+.get(userController.getPasswordRecovery)
 .post(userController.passwordRecoveryPost)
 
 //
 router.route("/otpSignup")
 .get(userController.getotpSignup)
 .post(userController.postotpSignup)
+
+router.route("/userProductDetails/:id")
+.get(userController.getUserProductDetails)
+
 
 
 module.exports=router

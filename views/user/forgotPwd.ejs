@@ -52,6 +52,11 @@
 
                 <label for="email" class="form-group">Email address</label>
                 <input type="email" name="email" placeholder="Type your registered email here" class="form-control border-dark" required>
+                <% if (messages.error) { %>
+                    <div class="alert alert-danger">
+                        <%= messages.error %>
+                    </div>
+                <% } %>
                 <div class="text-center py-3">
                     <input type="submit" class="btn btn-outline-dark px-5">
                 </div>

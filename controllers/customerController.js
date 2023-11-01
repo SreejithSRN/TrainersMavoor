@@ -7,7 +7,7 @@ module.exports={
         const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
         const perPage = 5; // Number of items per page
         const skip = (page - 1) * perPage;
-        const user = await User.find().skip(skip).limit(perPage);
+        const user = await User.find({}).sort({name:1}).skip(skip).limit(perPage);
         const totalCount = await User.countDocuments();
         res.render("./admin/customer", {
         user,

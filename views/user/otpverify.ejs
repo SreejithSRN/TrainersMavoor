@@ -50,9 +50,14 @@
             <form action="/otpverify" method="post" class="form-row">
               
 
-                <label for="email" class="form-group">Email address</label>
+                <label for="email" class="form-group"></label>
                 <input type="number" name="otp" placeholder="Type OTP " class="form-control border-dark" required>
                 <p>Please enter the OTP above that recieved in your registered email</p>
+                <% if (messages.error) { %>
+                    <div class="alert alert-danger">
+                        <%= messages.error %>
+                    </div>
+                <% } %>
                 <div class="text-center py-3">
                     <input type="submit" class="btn btn-outline-dark px-5">
                 </div>

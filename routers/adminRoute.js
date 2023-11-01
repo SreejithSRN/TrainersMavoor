@@ -5,6 +5,7 @@ const brandController=require("../controllers/brandController")
 const categoryController=require("../controllers/categoryController")
 const productController=require("../controllers/productController")
 const customerController=require("../controllers/customerController")
+const multer=require("../middleware/multer")
 
 router.route("/admin")
 .get(adminController.admin)
@@ -51,17 +52,35 @@ router.route("/editBrand/:id")
 
 //............................................................End of Brand Route.....................................................................
 
+
+
 //..........................................................Product Route.............................................................
 
 router.route("/product")
-.get(adminController.getProduct)
-
-router.route("/addProduct")
 .get(productController.getProduct)
 
+router.route("/addProduct")
+.get(productController.getAddProduct)
+.post(multer.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 },{name:'image4',maxCount:1}]),productController.postProduct)
 
+router.route("/blockProduct/:id")
+.get(productController.getBlockProduct)
+
+router.route("/productDetails/:id")
+.get(productController.productDetails)
+
+router.route("/editProduct/:id")
+.get(productController.editGetProduct)
+.post(multer.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 },{name:'image4',maxCount:1}]),productController.postEditProduct)
+
+router.route("/cancelProduct")
+.get(productController.cancelProduct)
+
+router.route("/deleteProduct/:id")
+.get(productController.deleteProduct)
 
 //............................................................End of Product Route .....................................................................
+
 
 
 //..........................................................Customer Route.............................................................

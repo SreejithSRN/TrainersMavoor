@@ -10,6 +10,7 @@ const userController = require("./controllers/userController")
 const flash=require("express-flash")
 const session = require("express-session")
 const nocache=require("nocache")
+const morgan=require('morgan')
 
 app.use(express.static("public"))
 
@@ -25,6 +26,7 @@ app.use(session({
 })
 )
 app.use(flash())
+// app.use(morgan('tiny'))
 
 app.set(express.static(path.join(__dirname,"views")))
 app.set("view engine","ejs")
