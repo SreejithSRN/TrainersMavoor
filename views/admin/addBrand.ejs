@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HomePage</title>
+    <title>Add Brand</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Italianno' rel='stylesheet'>
@@ -20,11 +20,15 @@
                 <div class="col-md-6 p-5 border border-dark rounded">
                     <h2 class="text-center pb-4">ADD BRAND</h2>
                     <form action="/addBrand" method="post" class="form-row">
-                        <% if (messages.error) { %>
-                            <div class="alert alert-danger">
-                                <%= messages.error %>
+                        <% if (messages.success) { %>
+                            <div class="alert alert-success">
+                                <%= messages.success %>
                             </div>
-                        <% } %>
+                        <% }else if (messages.error){ %>
+                          <div class="alert alert-danger">
+                            <%= messages.error %>
+                        </div>
+                        <%}%>
                         
                         <input type="text" name="name" placeholder="Add new brand"
                             class="form-control border-dark" required id="name" onchange="validateBrandName()">
@@ -37,7 +41,37 @@
                 </div>
             </div>
         </div>
-        <script src="/script.js"></script>
+
+       
+        <script>
+            function validateBrandName() {
+            var usernamePattern = /^[a-zA-Z][a-zA-Z0-9_]{0,20}$/
+            // var usernamePattern=/^[a-zA-Z](?:[a-zA-Z0-9_ ]{3,20}[a-zA-Z0-9_])?$/
+            var name = document.getElementById("name").value;
+            var msg = document.getElementById("nameCheck");
+            if (usernamePattern.test(name)) {
+            msg.innerHTML = "";
+            return true
+            } else {
+            msg.innerHTML = "Brand name should be at least one character";
+            }
+            }
+
+            function enableSubmitButton() {
+          const nameIsValid = validateBrandName();       
+      
+          // Get the submit button
+          const submitButton = document.querySelector('input[type="submit"]');
+      
+          // Enable the submit button if all conditions are met, otherwise disable it
+          if (nameIsValid) {
+            submitButton.disabled = false;
+          } else {
+            submitButton.disabled = true;
+          }
+        }
+            document.getElementById('name').addEventListener('input', enableSubmitButton);
+        </script>
 </body>
 
 </html>

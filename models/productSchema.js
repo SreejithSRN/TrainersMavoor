@@ -19,6 +19,14 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   }, 
+  offerprice:{
+    type:Number,
+    default:0
+  },
+  offerdiscount:{
+    type:Number,
+    default:0
+  },
   brand: {
     type: Schema.Types.ObjectId,
     required: true,

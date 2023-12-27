@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Italianno' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="top bg-dark w-100  d-flex justify-content-end fw-bold align-items-center">
+            <p class="text-white m-0 py-2">Call us: 9876543210 <a href="/userLogout"
+                    class="text-decoration-none text-white px-2 pe-5">Sign Out</a></p>
+        </div>
+        <div class="mid  bg-primary w-100 d-flex justify-content-between fw-bold align-items-center">
+            <%- include('../partials/userOffCanvas') %>
+                <h1 class="px-5">Trainers <span style="font-size: small; font-weight: 700;">Cricket zone</span></h1>
+                <div>
+
+                </div>
+        </div>
+    </div>
+
+    <!-- <section style="background-color: #eee;">
+        <div class="container py-5 ">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center shadow">
+                            <p class="text-muted mb-1">
+                                <%= newuser.email%>
+                            </p>
+                          
+                            <% if (newuser.address.length>0) { %>
+                                <h5 class="my-3">
+                                    <%= newuser.name %>
+                                </h5>
+                                <p class="text-muted mb-1">
+                                    <%= newuser.address[0].addressLane %>
+                                </p>
+                                <p class="text-muted mb-1">
+                                    <%= newuser.address[0].city %>, <%= newuser.address[0].state %> - <%=
+                                                newuser.address[0].pincode %>
+                                </p>
+                                
+                                <p class="text-muted mb-3">
+                                    <%= newuser.address[0].mobile %>
+                                </p>
+                             
+                            <% } %>
+                            
+
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-4 mb-lg-0 shadow">
+                        <a href="/userWallet" class="btn border border-success rounded-3 mt-1">
+                            <h5 class="text-success mt-2">Wallet Transaction</h5>
+                        </a>
+                    </div>
+                    <div class="card mb-4 mb-lg-0 shadow">
+                        <a href="/userAddress" class="btn border border-success rounded-3 mt-1">
+                            <h5 class="text-success mt-2">Address</h5>
+                        </a>
+                    </div>
+                    <div class="card mb-4 mb-lg-0 shadow">
+                        <a href="/userPasswordChange" class="btn border border-success rounded-3 mt-1">
+                            <h5 class="text-success mt-2">Change Password</h5>
+                        </a>
+                    </div>
+                    <div class="card mb-4 mb-lg-0 shadow">
+                        <a href="#" class="btn border border-success rounded-3 mt-1">
+                            <h5 class="text-success mt-2"><b>Invite Friends</b> <br> Copy below referral link
+                              
+                            </h5>
+                        </a>
+                        <p>http://localhost:4010/signup?ref=<%= newuser._id %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+
+    <div class="row bg-light m-0">
+        <section class="col-2"
+            style="display: flex; flex-wrap: nowrap; height: -webkit-fill-available; min-height: 67vh; overflow-x: hidden; overflow-y: hidden;">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-white" style="width: 240px;">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32">
+                        <use xlink:href="#bootstrap" />
+                    </svg>
+                    <span class="fs-4 fw-bold">Profile</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <button id="profile-button" class="nav-link link-dark active" aria-current="page">
+                            Home
+                        </button>
+                    </li>
+                    <li>
+                        <button id="address-button" class="nav-link link-dark">
+                            Address
+                        </button>
+                    </li>
+                    <li>
+                        <button id="password-button" class="nav-link link-dark">
+                            Change Password
+                        </button>
+                    </li>
+                    <li>
+                        <button id="wallet-button" class="nav-link link-dark">
+                            Wallet
+                        </button>
+                    </li>
+                    <li>
+                        <button id="referral-button" class="nav-link link-dark">
+                            Referrals
+                        </button>
+                    </li>
+                </ul>
+                <!-- <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div> -->
+            </div>
+        </section>
+        <div class="col-10">
+            <div class="row">
+
+
+                <div class="col-7 bg-light" id="profile" style="display: block;">
+                    <div class="d-flex shadow-sm rounded-3 m-5 bg-white">
+                        <div class="mx-5 my-3 d-flex align-items-center">
+                            <img style="height: 150px; width: auto;" src="https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-zxne30hp.png"
+                                alt="">
+                        </div>
+                        <div class="mx-5 my-3 d-flex align-items-center">
+                            <div>
+                                <h4 class="my-3 fw-bold"><%= newuser.name %></h4>
+                                <p class="">
+                                    <%= newuser.email%>
+                                </p>
+
+                                <% if (newuser.address.length>0) { %>
+                                    <p class="mb-1">
+                                        <%= newuser.address[0].addressLane %>
+                                    </p>
+                                    <p class="mb-1">
+                                        <%= newuser.address[0].city %>, <%= newuser.address[0].state %> - <%=
+                                                    newuser.address[0].pincode %>
+                                    </p>
+
+                                    <p class="mb-3">
+                                        <%= newuser.address[0].mobile %>
+                                    </p>
+
+                                <% } %>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12" id="address" style="display: none;">
+                    <div class="d-flex m-1 my-2 justify-content-between bg-white shadow-sm rounded-3 p-3">
+                        <h3 class="fw-bold">USER ADDRESSES</h3>
+                        <a href="/addAddress" class="btn btn-outline-dark fw-bold m-0">Add Address</a>
+                    </div>
+                    <div class="row">
+                        <% if (newuser.address.length>0) { %>
+                            <% newuser.address.forEach((x)=> { %>
+                                <div class="col-md-4 col-12 my-1 p-2">
+                                    <div class="bg-white rounded shadow-sm p-3">
+                                        <p class="text-uppercase text-secondary"><strong class="text-dark fs-4">
+                                                <%=x.name%>
+                                            </strong> <br>
+                                            <%= x.addressLane %><br>
+                                                <%= x.city %><br>
+                                                    <%= x.state %><br>
+                                                        <%= x.pincode %>
+                                        </p>
+                                        <p class="text-secondary"><strong class="text-dark">Contact: </strong>
+                                            <%=x.mobile %>, <%= x.altMobile %>
+                                        </p>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="/editAddress/<%=x._id %>"
+                                                class="btn btn-outline-dark fw-bold mx-2">Edit</a>
+                                            <a href="/deleteAddress/<%=x._id %>" class="btn btn-outline-danger fw-bold"
+                                                onclick="return confirm('Are you really want ot delete the selected address')">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                <% } else{%>
+                                    <h3 class="alert alert-danger w-50 m-auto my-5 text-center">No Address Found
+                                    </h3>
+                                <%}%>
+                    </div>
+                </div>
+
+
+                <div class="col-12" id="change-password" style="display: none;">
+                    <div class="row d-flex justify-content-center my-3">
+                        <div class="col-md-6 bg-white shadow-sm rounded-3">
+                            <h2 class="text-center">CHANGE PASSWORD</h2><BR></BR>
+                            <form action="/userPasswordChange" method="post" class="form-row">
+                                <label for="password" class="form-group">Current Password</label>
+                                <input type="password" id="password1" name="password" class="form-control border-dark"
+                                    required onchange="validatePassword1()">
+                                <p id="messagePwd1" class="text-danger"></p>
+                                <label for="new password" class="form-group">New Password</label>
+                                <input type="password" id="password" name="newpassword" class="form-control border-dark"
+                                    required onchange="validatePassword()">
+                                <p id="messagePwd" class="text-danger"></p>
+                                <label for="confirmpassword" class="form-group">Confirm Password</label>
+                                <input type="password" id="confirmPassword" name="confirmpassword"
+                                    class="form-control border-dark" required onchange="checkPasswordMatch()">
+                                <p id="messagePwdMatch" class="text-danger"></p>
+                                <% if (messages.success) { %>
+                                    <div class="alert alert-success">
+                                        <%= messages.success %>
+                                    </div>
+                                    <% }else if (messages.error){ %>
+                                        <div class="alert alert-danger">
+                                            <%= messages.error %>
+                                        </div>
+                                        <%}%>
+                                            <div class="text-center py-3">
+                                                <input type="Submit" class="btn btn-outline-dark px-5">
+                                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12" id="wallet" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="fw-bold text-center">Wallet</h3>
+                            <hr>
+                            <div class="p-3 shadow-sm">
+                                <% if (newWallet.length>0) { %>
+
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>Sl No</th>
+                                            <th>Transaction ID</th>
+                                            <th class="text-center">Date</th>
+                                            <th class="text-right">Credit/Debit</th>
+                                            <th class="text-right">Amount</th>
+                                        </tr>
+                                        <% newWallet.forEach((x,index)=> { %>
+                                            <tr>
+                                                <th>
+                                                    <%=index+1 %>
+                                                </th>
+                                                <th>
+                                                    <p>
+                                                        <%=x.orders._id%>
+                                                    </p>
+                                                </th>
+                                                <% if (x.status==="Credit" ) { %>
+                                                    <th class="text-center">
+                                                        <p>
+                                                            <%=new Date(x.orders.returnDate).toLocaleString('en-US', {
+                                                                timeZone: 'Asia/Kolkata' })%>
+                                                        </p>
+                                                    </th>
+                                                <% }else{ %>
+                                                    <th class="text-center">
+                                                        <p>
+                                                            <%=new Date(x.orders.orderDate).toLocaleString('en-US',
+                                                                { timeZone: 'Asia/Kolkata' })%>
+                                                        </p>
+                                                    </th>
+                                                <%}%>
+                                                <% if (x.status==="Credit" ) { %>
+                                                    <th class="text-right text-success">
+                                                        <p>
+                                                            <%=x.status%>
+                                                        </p>
+                                                    </th>
+                                                <% }else{ %>
+                                                    <th class="text-right text-danger">
+                                                        <p>
+                                                            <%=x.status%>
+                                                        </p>
+                                                    </th>
+                                                <%}%>
+                                                <% if (x.status==="Credit" ) { %>
+                                                    <th class="text-right text-success">
+                                                        <p>
+                                                            <%=x.totalAmount%>
+                                                        </p>
+                                                    </th>
+                                                <% } else { %>
+                                                    <th class="text-right text-danger">
+                                                        <p>
+                                                            <%=x.totalAmount%>
+                                                        </p>
+                                                    </th>
+                                                <%}%>
+
+                                            </tr>
+                                        <% }) %>
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td class="text-left fw-bold fs-6">Referral Bonus</td>
+                                            <td class="text-right fw-bold fs-5 text-success">
+                                                <%=walletamounts.referedAmount%>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td class="text-right fw-bold fs-3">Total Balance</td>
+                                            <td class="text-right fw-bold fs-3 text-success">
+                                                <%=walletTotal%>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <% }else if(walletamounts.referedAmount>0) { %>
+                                        <table class="table table-striped">
+
+
+                                            <tr>
+                                                <td colspan="3"></td>
+                                                <td class="text-left fw-bold fs-6">Referral Bonus</td>
+                                                <td class="text-right fw-bold fs-5 text-success">
+                                                    <%=walletamounts.referedAmount%>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td colspan="3"></td>
+                                                <td class="text-right fw-bold fs-3">Total Balance</td>
+                                                <td class="text-right fw-bold fs-3 text-success">
+                                                    <%=walletTotal%>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    <%} else {%>
+                                        <h3 class="alert alert-danger w-50 m-auto my-5 text-center">No wallet
+                                            information found</h3>
+                                    <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12" id="referral" style="display: none;">
+                    <div class="d-flex justify-content-between bg-white shadow-sm rounded-3 p-3 m-3">
+                        <p class="fs-4 fw-bold m-0">Referrals</p>
+                        <button type="button" id="referral-link" value="http://localhost:4010/signup?ref=<%= newuser._id %>" class="btn btn-outline-dark">Click Here to Copy the Referral Link</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between bg-white shadow-sm rounded-3 p-3 m-3">
+                                <table class="table table-borderless text-center">
+                                    <tr>
+                                        <th>#Sl No</th>
+                                        <th>User Name</th>
+                                        <th>Cash Earned</th>
+                                    </tr>
+                                    <% newuser.referredUsers.forEach((x,index) => { %>
+                                        
+    
+                                        <tr>
+                                            <td><%= index+1 %></td>
+                                            <td><%=x.name  %></td>
+                                            <td>Rs.100</td>
+                                        </tr>
+                                     
+                                    <% }) %>
+                                  
+
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <th class="fs-4 fw-bold">Total Earned: Rs.<%= newuser. referedAmount %></th>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <% if (newuser.rereferredBy) { %>
+                        <p class="text-center">You were Referred by <span class="fw-bold text-success"><%=newuser.rereferredBy.name  %></span></p>
+                     
+                    <% } %>
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const profileButton = document.getElementById("profile-button");
+            const addressButton = document.getElementById("address-button");
+            const passwordButton = document.getElementById("password-button");
+            const walletButton = document.getElementById("wallet-button");
+            const referralButton = document.getElementById("referral-button");
+
+            const profileDiv = document.getElementById("profile");
+            const addressDiv = document.getElementById("address");
+            const passwordDiv = document.getElementById("change-password");
+            const walletDiv = document.getElementById("wallet");
+            const referralDiv = document.getElementById("referral");
+
+            function showProfile() {
+                profileDiv.style.display = "block";
+                addressDiv.style.display = "none";
+                passwordDiv.style.display = "none";
+                walletDiv.style.display = "none";
+                referralDiv.style.display = "none";
+
+                setActiveButton(profileButton);
+            }
+
+            function showAddress() {
+                profileDiv.style.display = "none";
+                addressDiv.style.display = "block";
+                passwordDiv.style.display = "none";
+                walletDiv.style.display = "none";
+                referralDiv.style.display = "none";
+
+                setActiveButton(addressButton);
+            }
+
+            function showChangePassword() {
+                profileDiv.style.display = "none";
+                addressDiv.style.display = "none";
+                passwordDiv.style.display = "block";
+                walletDiv.style.display = "none";
+                referralDiv.style.display = "none";
+
+                setActiveButton(passwordButton);
+            }
+
+            function showWallet() {
+                profileDiv.style.display = "none";
+                addressDiv.style.display = "none";
+                passwordDiv.style.display = "none";
+                walletDiv.style.display = "block";
+                referralDiv.style.display = "none";
+
+                setActiveButton(walletButton);
+            }
+
+            function showReferral() {
+                profileDiv.style.display = "none";
+                addressDiv.style.display = "none";
+                passwordDiv.style.display = "none";
+                walletDiv.style.display = "none";
+                referralDiv.style.display = "block";
+
+                setActiveButton(referralButton);
+            }
+
+            function setActiveButton(button) {
+                // Remove "active" class from all buttons
+                profileButton.classList.remove("active");
+                addressButton.classList.remove("active");
+                passwordButton.classList.remove("active");
+                walletButton.classList.remove("active");
+                referralButton.classList.remove("active");
+
+                // Add "active" class to the clicked button
+                button.classList.add("active");
+            }
+
+            profileButton.addEventListener("click", showProfile);
+            addressButton.addEventListener("click", showAddress);
+            passwordButton.addEventListener("click", showChangePassword);
+            walletButton.addEventListener("click", showWallet);
+            referralButton.addEventListener("click", showReferral);
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const referralLinkButton = document.getElementById("referral-link");
+
+            referralLinkButton.addEventListener("click", function () {
+                // Select the text in the button
+                const linkToCopy = document.createElement("textarea");
+                linkToCopy.value = referralLinkButton.value;
+                document.body.appendChild(linkToCopy);
+                linkToCopy.select();
+                
+                // Copy the text to the clipboard
+                document.execCommand("copy");
+
+                // Clean up and remove the temporary textarea
+                document.body.removeChild(linkToCopy);
+
+                // Optionally, provide some feedback to the user
+                alert("Referral link copied to clipboard!");
+            });
+        });
+    </script>
+
+
+
+
+    <%- include('../partials/footer') %>

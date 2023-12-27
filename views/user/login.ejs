@@ -7,7 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Document</title>
+    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <title>Login Page</title>
     <style>
         .card {
             width: 50%;
@@ -54,9 +56,9 @@
                 <h2 class="text-center">LOGIN</h2>
                 <form action="/login" method="post" class="form-row">
                     <label for="email" class="form-group">Email address</label>
-                    <input type="email" name="email" class="form-control border-dark" required>
-                    <label for="password" class="form-group">Password</label>
-                    <input type="password" name="password" class="form-control border-dark" required>
+                    <input type="email" name="email" value="navneeth@gmail.com" class="form-control border-dark" required>
+                    <label for="password" class="form-group" >Password</label>
+                    <input type="password" name="password" value="abcd1234!" class="form-control border-dark" required>
                     <% if (messages.error) { %>
                         <div class="alert alert-danger">
                             <%= messages.error %>
@@ -68,8 +70,8 @@
                     </div>
                 </form>
                 <hr>
-                <div class="btn form-control border-dark align-items-center d-flex justify-content-center">
-                    <a href="/signup" class="text-decoration-none text-dark">
+                <div class="btn btn-outline-dark  align-items-center d-flex justify-content-center">
+                    <a href="/signup" class="text-decoration-none ">
                         CREATE NEW ACCOUNT
                     </a>
                 </div>
@@ -77,49 +79,9 @@
         </div>
     </div>
     <!-- end login register -->
-    <div class="container-fluid p-3 pt-5 foot bg-dark">
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center text-left">
-                <ul class="list-unstyled text-white">
-                    <li class="fw-bold">RESOURCES</li>
-                    <li>About</li>
-                    <li>Resource listing</li>
-                    <li>Press kit</li>
-                    <li>Blog</li>
-                </ul>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center text-left">
-                <ul class="list-unstyled text-white">
-                    <li class="fw-bold">RESOURCES</li>
-                    <li>About</li>
-                    <li>Resource listing</li>
-                    <li>Press kit</li>
-                    <li>Blog</li>
-                </ul>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center text-left">
-                <ul class="list-unstyled text-white">
-                    <li class="fw-bold">RESOURCES</li>
-                    <li>About</li>
-                    <li>Resource listing</li>
-                    <li>Press kit</li>
-                    <li>Blog</li>
-                </ul>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-3 d-flex justify-content-center text-left">
-                <ul class="list-unstyled text-white">
-                    <li class="fw-bold">RESOURCES</li>
-                    <li>About</li>
-                    <li>Resource listing</li>
-                    <li>Press kit</li>
-                    <li>Blog</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- ... Your HTML code ... -->
-
+    
+    
+    <%- include('../partials/footer') %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

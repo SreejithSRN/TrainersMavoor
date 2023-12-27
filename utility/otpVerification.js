@@ -64,7 +64,7 @@ sendOTP:async(req,res,email,otpToBeSent)=>{
     }else{
       console.log("Succesfully send otp");
         // req.flash("success","OTP sent Succesfully")
-       res.redirect("/forgotPwdMail")
+      //  res.redirect("/forgotPwdMail")
     }
   }        
   );

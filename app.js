@@ -19,6 +19,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use(nocache())
 
+
 app.use(session({
     secret:process.env.SECRET,
     resave:false,
@@ -26,7 +27,7 @@ app.use(session({
 })
 )
 app.use(flash())
-// app.use(morgan('tiny'))
+app.use(morgan('tiny'))
 
 app.set(express.static(path.join(__dirname,"views")))
 app.set("view engine","ejs")
@@ -34,7 +35,18 @@ app.set("view engine","ejs")
 app.use("/", userRoute)
 app.use("/",adminRoute)
 
+
+
+// app.use((err,req,res,next)=>{
+//     console.log(err.stack);
+//     res.render('errorpage')
+// })
+
+// app.use("*", (req,res) => {
+//     res.render('errorpage')
+//   })
+
 const PORT=process.env.PORT
 
 
-app.listen(PORT,()=>{console.log(`Server connected on http://localhost:${PORT}`)})
+app.listen(PORT,()=>{console.log(`Server connected on http://localhost:${PORT}`, `Server connected on http://localhost:${PORT}/admin`)})

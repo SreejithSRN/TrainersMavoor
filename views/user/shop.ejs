@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <link rel="stylesheet" type="text/css" href="/css/admin/dashboard.css">
+    <title>User Dashboard</title>
+    <style>
+        /* .card{
+            width: 50%;
+        } */
+        /* @media(max-width:600px){
+            .card{
+                width: 100%;
+            }
+        }
+        @media(max-width:800px){
+            .card{
+                width: 75%;
+            }
+        } */
+        .foot {
+            border-radius: 25px 25px 0px 0px;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar sticky-top" >
+        <div class="top bg-dark w-100  d-flex justify-content-end fw-bold align-items-center">
+            <p class="text-white m-0 py-2">Call us: 9876543210 <a href="/userLogout" class="text-decoration-none text-white px-2 pe-5">Sign Out</a></p>
+        </div>
+        <div class="mid  bg-primary w-100 d-flex justify-content-between fw-bold align-items-center">
+            <%- include('../partials/userOffCanvas') %>
+            <h1 class="px-5">Trainers <span style="font-size: small; font-weight: 700;">Cricket zone</span></h1>
+            <div>
+                <a href="/getCart" class="text-dark text-decoration-none d-flex mx-3">
+                    <i class="fa-solid fa-cart-shopping fs-5"></i>
+                    <!-- <sup class="text-white rounded-pill m-1" id="cart-total">10</sup> -->
+                </a>
+                
+            </div>
+        </div>
+    </div>
+    <% if (messages.success) { %>
+        <div class="alert alert-success">
+            <%= messages.success %>
+        </div>
+    <% }else if (messages.error){ %>
+      <div class="alert alert-danger">
+        <%= messages.error %>
+    </div>
+    <%}%>
+    
+
+    <div class="container-fluid">
+        <div class="row p-1" style="min-height: 65vh;">
+            <div class="col-md-2 p-2 bg-white my-2">
+                <h3 class="text-bold text-center">Filter Products</h3>
+                <hr>
+                <form action="/filters" method="post">
+                    <div>
+                        <button type="button" class="btn btn-toggle align-items-center rounded collapsed my-1" data-bs-toggle="collapse" data-bs-target="#category-collapse" aria-expanded="true">
+                            Categories
+                        </button>
+                        <div class="collapse ps-5" id="category-collapse">
+                            <% newcategory.forEach((x) => { %>
+                                <div class="form-row">
+                                    <input type="radio" name="category" id="category_<%= x._id %>" value="<%= x._id %>">
+                                    <label for="category_<%= x._id %>" class="my-0 mx-1"><%= x.name %></label>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-toggle align-items-center rounded collapsed my-1" data-bs-toggle="collapse" data-bs-target="#brand-collapse" aria-expanded="true">
+                            Brands
+                        </button>
+                        <div class="collapse ps-5" id="brand-collapse">
+                            <% newbrand.forEach((x)=> { %>
+                                <div class="form-row">
+                                    <input type="radio" name="brand" id="brand_<%= x._id %>" value="<%= x._id %>">
+                                    <label for="brand_<%= x._id %>" class="my-0 mx-1"><%= x.name %></label>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="/filters" class="btn btn-outline-dark mt-3">Reset</a>
+                        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                    </div>
+                </form>                
+            </div>
+    
+
+<% if (displayProduct.length > 0) { %>
+ 
+            <div class="col-md-10 p-2">
+                <div class="row">
+                    <% displayProduct.forEach((x)=> { %>
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            <div class="card my-2 p-2">
+                                <a href="/userProductDetails/<%=x._id %>" class="text-decoration-none text-dark">
+                                    <div class="d-flex justify-content-center">
+                                        <img src="/uploads/<%= x.images[0] %>" style="height: 200px;" class="img-fluid"
+                                            alt="" />
+                                    </div>
+                                    <hr />
+                                    <div class="d-flex justify-content-between">
+                                        <div class="">
+                                            <p class="fs-5 fw-bold m-0">
+                                                <%=x.name %>
+                                            </p>
+                                            <P class="text-secondary small fw-bold m-0">Rs <%= x.price-x.discount %>
+                                            </P>
+
+                                            <% if (x.offerprice) { %>
+                                                <p class="text-success small fw-bold m-0">Offer Price: Rs <%= x.offerprice %></p>
+                                            <% } %>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <a href="#"><i class="fa-regular fa-heart text-danger fw-bold fs-4"></i></a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+<% } else { %>
+    <h3 class="alert alert-danger w-50 m-auto my-5 text-center">No Match Found</h3>
+    <% } %>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <%- include('../partials/footer') %>
+
+  
+</body>
+
+</html>

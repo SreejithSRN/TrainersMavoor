@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HomePage</title>
+    <title>Edit Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Italianno' rel='stylesheet'>
@@ -18,7 +18,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6 col-12">
                 <div class="card p-5 my-5">
-                    <h4 class="text-center fw-bold">Add Product</h4>
+                    <h4 class="text-center fw-bold">Edit Product</h4>
                     <form action="/editProduct/<%=editProduct._id%>" method="post" enctype="multipart/form-data">
                         <% if (messages.success) { %>
                             <div class="alert alert-success">
@@ -29,49 +29,58 @@
                             <%= messages.error %>
                         </div>
                         <%}%>
+
                         <div class="form-group py-2">
                             <label for="name" class="py-1">Product Name</label>
-                            <input type="text" value="<%= editProduct.name %>" placeholder="Product Name" class="form-control" name="name">
+                            <input type="text" id="name" placeholder="Product Name" value="<%= editProduct.name %>" class="form-control" oninput="validateProductName() " name="name" required>
+                            <div id="nameError" class="text-danger"></div>
                         </div>
                         <div class="form-group py-2">
                             <label for="description" class="py-1">Product Description</label>
-                            <textarea placeholder="Product Description" class="form-control" name="description"><%= editProduct.description %> </textarea>
+                            <textarea placeholder="Product Description" id="Description" class="form-control" name="description" oninput="validateProductDescription()" required><%= editProduct.description %> </textarea>
+                            <div id="descriptionError" class="text-danger"></div>
                         </div>
                         <div class="form-group py-2">
                             <label for="tags" class="py-1">Tags</label>
-                            <textarea placeholder="Tags Description" class="form-control" name="tags"><%= editProduct.tags %> </textarea>
+                            <textarea placeholder="Tags Description" id="Tags" class="form-control" name="tags" oninput="validateProductTags()" required><%= editProduct.tags %></textarea>
+                            <div id="tagsError" class="text-danger"></div>
                         </div>
                         
                         <div class="form-group py-2">
                             <label for="price" class="py-1">Product Price</label>
-                            <input type="number" value="<%=editProduct.price%>" placeholder="Product Price" class="form-control" name="price">
+                            <input type="number" placeholder="Product Price" id="productPrice" value="<%=editProduct.price%>" class="form-control" name="price" required min="0" oninput="validatePrices()">
+                            <div id="validationMessage1" class="text-danger"></div>
                         </div>
                         <div class="form-group py-2">
                             <label for="Discount Price" class="py-1">Discount Price</label>
-                            <input type="number" value="<%=editProduct.discount%>" placeholder="Discount Price" class="form-control" name="discount">
+                            <input type="number" placeholder="Discount Price" id="discountPrice" value="<%=editProduct.discount%>"  class="form-control" name="discount" required min="0" oninput="validatePrices()" >
+                            <div id="validationMessage2" class="text-danger"></div>
+                            <div id="discountError" class="text-danger"></div>
+                        </div>                        
+                        <div class="form-group py-2">
+                            <label for="category" class="py-1">Category</label>
+                            <select name="category" class="form-control" required>
+                                <option value="<%=editProduct.category.name%>" selected ><%=editProduct.category.name%></option> 
+                                <%categorys.forEach(function(cat){ %>
+                                    <option value="<%=cat.name%>">
+                                    <%=cat.name%> </option>                                
+                                <% }) %>
+                            </select>
                         </div>
                         <div class="form-group py-2">
                             <label for="brand" class="py-1">Brand</label>
-                            <select name="brand" class="form-control">
-                                <option value="<%= editProduct.brand.name %> " disabled>Select a Brand</option>
-                                <% brands.forEach(brand => { %>
-                                    <option value="<%= brand.name %>"><%= brand.name %> </option>                                
+                            <select name="brand" class="form-control" required>
+                                <option value="<%=editProduct.brand.name%>" selected disabled><%=editProduct.brand.name%></option>
+                                <%brands.forEach(brand => { %>
+                                    <option value="<%=brand.name%>"><%=brand.name%> </option>                                
                                 <% }) %>
                             </select>
                         </div>
-                        <div class="form-group py-2">
-                            <label for="category" class="py-1">Category</label>
-                            <select name="category" class="form-control">
-                                <option value="<%= editProduct.category.name %> " disabled>Select a Category</option> 
-                                <% categorys.forEach(function(cat){ %>
-                                    <option value="<%= cat.name %>">
-                                    <%= cat.name %> </option>                                
-                                <% }) %>
-                            </select>
-                        </div>
+                     
                         <div class="form-group py-2">
                             <label for="stock" class="py-1">Product Stock</label>
-                            <input type="number" value="<%=editProduct.stock%>" placeholder="Product Stock" class="form-control" name="stock">
+                            <input type="number" value="<%=editProduct.stock%>" placeholder="Product Stock" id="stocks" class="form-control" name="stock" required min="0" oninput="validateInput2(stocks)">
+                            <div id="validationMessage3" class="text-danger"></div>
                         </div>
                         <div class="form-group py-2">
                             <label for="img1" class="py-1">Image 1</label>
@@ -81,17 +90,17 @@
                         <div class="form-group py-2">
                             <label for="img2" class="py-1">image 2</label>
                             <img src="/uploads/<%=editProduct.images[1]%>"  alt="No image Selected" class="img-fluid imagePreview" style="max-height: 50px;width: auto;">
-                            <input type="file" name="image2" class="form-control imageInput" id="imageInput" accept="image/*" />
+                            <input type="file" name="image2" class="form-control imageInput" id="imageInput" accept="image/*"  />
                         </div>
                         <div class="form-group py-2">
                             <label for="img3" class="py-1">image 3</label>
                             <img src="/uploads/<%=editProduct.images[2]%>"  alt="No image Selected" class="img-fluid imagePreview" style="max-height: 50px;width: auto;">
-                            <input type="file" name="image3" class="form-control imageInput" id="imageInput" accept="image/*" />
+                            <input type="file" name="image3" class="form-control imageInput" id="imageInput" accept="image/*"  />
                         </div>
                         <div class="form-group py-2">
                             <label for="img4" class="py-1">image 4</label>
                             <img src="/uploads/<%=editProduct.images[3]%>"  alt="No image Selected" class="img-fluid imagePreview" style="max-height: 50px;width: auto;">
-                            <input type="file" name="image4" class="form-control imageInput" id="imageInput"  />
+                            <input type="file" name="image4" class="form-control imageInput" id="imageInput"   />
                         </div>
                         <div class="d-flex justify-content-end py-3">
                             <input type="submit" value="Save Product" class="btn btn-outline-success mx-4">
@@ -102,6 +111,7 @@
             </div>
         </div>
     </div>
+    <script src="/script.js"></script>
     <script>
         const imageInput = document.querySelectorAll('.imageInput');
         const imagePreview = document.querySelectorAll('.imagePreview');

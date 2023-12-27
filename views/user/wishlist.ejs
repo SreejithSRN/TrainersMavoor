@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/admin/dashboard.css">
+    <title>Whishlist</title>
+    <style>
+        /* .card{
+            width: 50%;
+        } */
+        /* @media(max-width:600px){
+            .card{
+                width: 100%;
+            }
+        }
+        @media(max-width:800px){
+            .card{
+                width: 75%;
+            }
+        } */
+        .foot {
+            border-radius: 25px 25px 0px 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar sticky-top">
+        <div class="top bg-dark w-100  d-flex justify-content-end fw-bold align-items-center">
+            <p class="text-white m-0 py-2">Call us: 9876543210 <a href="/userLogout"
+                    class="text-decoration-none text-white px-2 pe-5">Sign Out</a></p>
+        </div>
+        <div class="mid  bg-primary w-100 d-flex justify-content-between fw-bold align-items-center">
+            <%- include('../partials/userOffCanvas') %>
+                <h1 class="px-5">Trainers <span style="font-size: small; font-weight: 700;">Cricket zone</span></h1>
+                <div class="d-flex">
+                    <a href="/getCart" class="text-dark text-decoration-none d-flex mx-2">
+                        <i class="fa-solid fa-cart-shopping fs-5"></i>
+                    </a>
+                    <a href="/wishlist" class="text-dark text-decoration-none d-flex mx-2">
+                        <i class="fa-solid fa-heart fs-5"></i>
+                    </a>
+
+                </div>
+        </div>
+    </div>
+
+    <% if (messages.success) { %>
+        <div class="alert alert-success">
+            <%= messages.success %>
+        </div>
+        <% }else if (messages.error){ %>
+            <div class="alert alert-danger">
+                <%= messages.error %>
+            </div>
+            <%}%>
+                <h3 class="fw-bold text-center text-secondary">Wishlist</h3>
+
+                <% if (displayProduct!=null) { %>
+                    <div class="row d-flex justify-content-center m-0" style="min-height: 61vh;">
+                        <% displayProduct. products.forEach((x)=> { %>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                <div class="card my-2 p-2">
+                                    <div style="position: absolute; right: 10px; top: 10px;">
+                                        <a href="/deleteWishlist/<%= x._id %>"><button
+                                                onclick="return confirm('Are you sure to delete from wishlist')"
+                                                class="fa-solid fa-xmark fs-3 text-danger btn"></button></a>                                               
+                                    </div>
+                                    <a href="/userProductDetails/<%= x._id %>" class="text-decoration-none text-dark">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="/uploads/<%= x.images[0] %>" style="height: 200px;"
+                                                class="img-fluid" alt="" />
+                                        </div>
+                                        <hr />
+                                        <div class="d-flex justify-content-between">
+                                            <div class="">
+                                                <p class="fs-5 fw-bold m-0">
+                                                    <%= x.name %>
+                                                </p>
+                                                <p class="text-secondary small fw-bold m-0">Rs <%= x.price - x.discount
+                                                        %>
+                                                </p>                                               
+                                                <% if (x.offerprice) { %>
+                                                    <p class="text-success small fw-bold m-0">Offer Price: Rs <%=
+                                                            x.offerprice %>
+                                                    </p>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                    <% }else { %>
+                        <h3 class="alert alert-danger w-50 m-auto my-5 text-center">No Whishlist Found</h3>
+
+                        <%}%>
+
+                            <%- include('../partials/footer') %>
+
+                                <script
+                                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                                    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                                    crossorigin="anonymous"></script>
+                                <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                                    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                                    crossorigin="anonymous"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                                    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                                    crossorigin="anonymous"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+                                    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                                    crossorigin="anonymous"></script>
+</body>
+
+</html>
