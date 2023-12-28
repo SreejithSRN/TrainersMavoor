@@ -12,8 +12,20 @@ const flash = require("express-flash")
 module.exports={
     getOffers:async (req,res)=>{
         try {
-            const sendoffer=await offer.find({})
-            res.render("./admin/categoryoffer", {sendoffer})            
+            const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
+            const perPage = 5; // Number of items per page
+            const skip = (page - 1) * perPage;
+            const sendoffer=await offer.find({}).sort({ categoryName: 1 }).skip(skip).limit(perPage);
+            const totalCount = await offer.countDocuments();
+            res.render("./admin/categoryoffer", {
+                sendoffer,
+                currentPage: page,
+                perPage,
+                totalCount,
+                totalPages: Math.ceil(totalCount / perPage),
+            });
+            // const sendoffer=await offer.find({})
+            // res.render("./admin/categoryoffer", {sendoffer})            
         } catch (error) {
             console.log(error);
             res.status(500).render("error500", { message: "Internal Server Error" })            
@@ -22,7 +34,7 @@ module.exports={
 
     getaddOffer:async (req,res)=>{
         try {
-            const sendcategory=await category.find({})
+            const sendcategory=await category.find({}).sort({name: 1 })
             res.render("./admin/addcategoryoffer",{sendcategory})            
         } catch (error) {
             console.log(error);

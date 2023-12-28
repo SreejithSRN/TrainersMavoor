@@ -10,14 +10,16 @@ const flash = require("express-session")
 const otpFunction = require("../utility/otpVerification")
 const OTP = require("../models/otpSchema")
 const { request, json } = require("express")
+const { default: mongoose } = require("mongoose")
 
 module.exports = {
 
 
     //................................................Base Root ..................................................................
-    initial: (req, res) => {
+    initial: async(req, res) => {
         try {
-            res.render("./user/index")
+            const displayProduct = await product.find({ display: "Active" })
+            res.render("./user/index",{displayProduct})
         } catch (error) {
             console.log(error)
             res.status(500).render("error500", { message: "Internal Server Error" })
@@ -34,7 +36,7 @@ module.exports = {
     getDashboard: async (req, res) => {
         try {
             const userId = req.session.userId
-            const newWallet = await wallet.find({ userId: userId }).populate('orders')
+            const newWallet = await wallet.find({ userId:new mongoose.Types.ObjectId(userId) }).populate('orders')
             let debitAmount = 0, creditAmount = 0, walletTotal = 0
             for (x of newWallet) {
                 if (x.status === "Debit") {
@@ -47,14 +49,58 @@ module.exports = {
             walletTotal = creditAmount + walletamounts?.referedAmount - debitAmount
             req.session.walletAmount = walletTotal
             console.log(req.session);
-            const displayProduct = await product.find({ display: "Active" })
+
+            const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
+        const perPage = 8; // Number of items per page
+        const skip = (page - 1) * perPage;
+        const displayProduct = await product.find({ display: "Active" }).sort({ name: 1 }).skip(skip).limit(perPage);
+        const totalCount = await product.countDocuments();
+        res.render('./user/dashboard', {
+            displayProduct,
+            currentPage: page,
+            perPage,
+            totalCount,
+            totalPages: Math.ceil(totalCount / perPage),
+        });
+
+
+            
+            // const displayProduct = await product.find({ display: "Active" })
             // req.session.logged=true
-            res.render('./user/dashboard', { displayProduct })
+            // res.render('./user/dashboard', { displayProduct })
         } catch (error) {
             console.log(error);
             res.status(500).render("error500", { message: "Internal Server Error" })
         }
     },
+
+
+
+    //     try {
+    //         const userId = req.session.userId
+    //         const newWallet = await wallet.find({ userId:new mongoose.Types.ObjectId(userId) }).populate('orders')
+    //         let debitAmount = 0, creditAmount = 0, walletTotal = 0
+    //         for (x of newWallet) {
+    //             if (x.status === "Debit") {
+    //                 debitAmount += x.totalAmount
+    //             } else if (x.status === "Credit") {
+    //                 creditAmount += x.totalAmount
+    //             }
+    //         }
+    //         const walletamounts=await User.findOne({_id:userId})
+    //         walletTotal = creditAmount + walletamounts?.referedAmount - debitAmount
+    //         req.session.walletAmount = walletTotal
+    //         console.log(req.session);
+
+
+    //         const displayProduct = await product.find({ display: "Active" })
+    //         // req.session.logged=true
+    //         res.render('./user/dashboard', { displayProduct })
+    //     } catch (error) {
+    //         console.log(error);
+    //         res.status(500).render("error500", { message: "Internal Server Error" })
+    //     }
+    // },
     //...............................................Sign In Page credentials check......................................................
 
     signin: async (req, res) => {
@@ -244,7 +290,7 @@ module.exports = {
                 const result = otpFunction.sendOTP(req, res, email, otpToBeSent)
                 req.session.login = true
                 req.session.user = newuser
-                req.session.logged=true
+                // req.session.logged=true
                 res.redirect("/otpSignup")
             }
         } catch (error) {
@@ -272,14 +318,28 @@ module.exports = {
                     console.log(req.session.referal);
                     const updatereferaluser = await User.findByIdAndUpdate(id, { $set: { referredBy: req.session.referal } })
                     const updateUser = await User.findOne({ _id: req.session.referal })
-                    total = updateUser.referedAmount + 100
-                    const newupdateUser = await User.findByIdAndUpdate(req.session.referal, { $set: { referedAmount: total } })
-                    const newupdateUser1 = await User.findByIdAndUpdate(req.session.referal, { $push: { referredUsers: id } })
+                    if (updateUser) {
+                        const referedAmount = updateUser.referedAmount || 0; // Assuming a default value of 0
+                        total = referedAmount + 100;
+                      
+                        const newupdateUser = await User.findByIdAndUpdate(
+                          req.session.referal,
+                          { $set: { referedAmount: total } }
+                        );
+                      
+                        const newupdateUser1 = await User.findByIdAndUpdate(
+                          req.session.referal,
+                          { $push: { referredUsers: id } }
+                        );
+                    }
+                    // total = updateUser.referedAmount + 100
+                    // const newupdateUser = await User.findByIdAndUpdate(req.session.referal, { $set: { referedAmount: total } })
+                    // const newupdateUser1 = await User.findByIdAndUpdate(req.session.referal, { $push: { referredUsers: id } })
                     // const updatewallet=await wallet.findByIdAndUpdate(req.session.referal,{$set:{totalAmount:total}})
                     req.session.login = false
                     req.session.destroy()
                     res.redirect("/login")
-                } else {
+                }else {
                     if (req.session.login) {
                         req.flash("error", "OTP Invalid")
                         res.redirect("/otpSignup")
@@ -468,7 +528,7 @@ module.exports = {
             req.session.user = ""
             req.session.userId = ""
             console.log("Start",req.session,"Stop");
-            res.render("./user/index")
+            res.redirect("/")
             // req.session.destroy()
         } catch (error) {
             console.log(error)

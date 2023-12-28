@@ -9,6 +9,7 @@ const wishlistController=require("../controllers/wishlistController")
 const { verifyUser, userExist } = require("../middleware/session.js");
 
 
+
 //base root//
 router.route("/")
 .get(userExist,userController.initial)
@@ -25,7 +26,7 @@ router.route("/login")
 //signup root//
 router.route("/signup")
 .get(userExist,userController.signup)
-.post(userExist,userController.signupPost)
+.post(userController.signupPost)
 
 //forgot password root//
 router.route("/forgotPwd")

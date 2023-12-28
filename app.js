@@ -27,7 +27,7 @@ app.use(session({
 })
 )
 app.use(flash())
-app.use(morgan('tiny'))
+// app.use(morgan('tiny'))
 
 app.set(express.static(path.join(__dirname,"views")))
 app.set("view engine","ejs")

@@ -13,8 +13,34 @@ module.exports = {
     getUserOrderList: async (req, res) => {
         try {
             const userId = req.session.userId
-            const orderList = await order.find({ userId: userId }).sort({ orderDate: -1 })
-            res.render("./user/userorderlist", { orderList })
+
+
+
+            const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
+            const perPage = 5; // Number of items per page
+            const skip = (page - 1) * perPage;
+            const orderList = await order.find({ userId: userId }).sort({ orderDate: -1 }).skip(skip).limit(perPage);
+            // const brands = await brand.find({}).sort({ name: 1 }).skip(skip).limit(perPage);
+            const totalCount = await order.countDocuments();
+            res.render("./user/userorderlist", {
+                orderList,
+                currentPage: page,
+                perPage,
+                totalCount,
+                totalPages: Math.ceil(totalCount / perPage),
+            });
+    
+
+
+
+
+
+
+            // const orderList = await order.find({ userId: userId }).sort({ orderDate: -1 })
+
+
+
+            // res.render("./user/userorderlist", { orderList })
         } catch (error) {
             console.log(error)
             res.status(500).render("error500", { message: "Internal Server Error" })
@@ -99,9 +125,23 @@ module.exports = {
     //admin order list
     getOrderList: async (req, res) => {
         try {
-            const orders = await order.find().sort({ orderDate: -1 })
+            const page = parseInt(req.query.page) || 1; // Get the page number from query parameters
+            const perPage = 5; // Number of items per page
+            const skip = (page - 1) * perPage;
+            const orders = await order.find().sort({ orderDate: -1 }).skip(skip).limit(perPage);
+            const totalCount = await order.countDocuments();
+            res.render("./admin/orderlist", {
+                orders,
+                currentPage: page,
+                perPage,
+                totalCount,
+                totalPages: Math.ceil(totalCount / perPage),
+            });
+
+
+            // const orders = await order.find().sort({ orderDate: -1 })
             // console.log(orders);
-            res.render("./admin/orderlist", { orders })
+            // res.render("./admin/orderlist", { orders })
         } catch (error) {
             console.log(error);
             res.status(500).render("error500", { message: "Internal Server Error" })
